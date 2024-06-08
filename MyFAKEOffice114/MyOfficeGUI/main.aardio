@@ -1,0 +1,447 @@
+import win.ui;
+import win.reg;
+import fsys;
+import io;
+import win;
+/*DSG{{*/
+mainForm = win.form(text="Office114";right=123;bottom=220;border="none";max=false)
+mainForm.add(
+Help={cls="button";text="说明";left=65;top=199;right=118;bottom=219;z=12};
+Info={cls="static";text="MyOffice注册表设置";left=10;top=2;right=119;bottom=20;notify=1;transparent=1;z=1};
+OFcheck={cls="button";text="检查";left=12;top=25;right=114;bottom=45;z=10};
+OFset={cls="button";text="设置";left=12;top=49;right=62;bottom=69;z=11};
+SFback={cls="button";text="还原";left=63;top=49;right=113;bottom=69;z=15};
+docfile={cls="checkbox";text="doc";left=10;top=176;right=55;bottom=195;checked=1;group=1;z=6};
+docxfile={cls="checkbox";text="docx";left=10;top=155;right=55;bottom=174;checked=1;group=1;z=5};
+filegroup={cls="groupbox";text="文件关联";left=2;top=92;right=119;bottom=199;edge=1;z=2};
+helpCHM={cls="button";text="帮助";left=12;top=72;right=113;bottom=92;z=14};
+opexit={cls="button";text="退出";left=9;top=200;right=62;bottom=220;z=13};
+pdffile={cls="checkbox";text="pdf";left=57;top=155;right=102;bottom=174;checked=1;group=1;z=9};
+pptfile={cls="checkbox";text="ppt";left=10;top=134;right=55;bottom=153;checked=1;group=1;z=4};
+pptxfile={cls="checkbox";text="pptx";left=10;top=114;right=55;bottom=133;checked=1;group=1;z=3};
+xlsfile={cls="checkbox";text="xls";left=57;top=134;right=102;bottom=153;checked=1;group=1;z=8};
+xlsxfile={cls="checkbox";text="xlsx";left=57;top=115;right=102;bottom=134;checked=1;group=1;z=7}
+)
+/*}}*/
+
+function SFbackup()
+{
+	var usp=win.getenv("APPDATA")+"\MyOffice";
+	if(!fsys.isDir(usp)) fsys.createDir(usp);
+	
+	//win.msgbox("test","test",NULL,NULL);
+	if(mainForm.pptxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.12\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.12\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\PowerPoint.Show.12.txt";
+		
+		if(!io.open(flnm))
+		{
+			var opt=io.open(flnm,"w");
+			opt.write(t);
+		}
+	}
+	if(mainForm.pptfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.8\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.8\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\PowerPoint.Show.8.txt";
+		
+		if(!io.open(flnm))
+		{
+			var opt=io.open(flnm,"w");
+			opt.write(t);
+		}
+	}
+	if(mainForm.docxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Word.Document.12\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.12\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Word.Document.12.txt";
+		
+		if(!io.open(flnm))
+		{
+			var opt=io.open(flnm,"w");
+			opt.write(t);
+		}
+	}
+	if(mainForm.docfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Word.Document.8\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.8\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Word.Document.8.txt";
+		
+		if(!io.open(flnm))
+		{
+			var opt=io.open(flnm,"w");
+			opt.write(t);
+		}
+	}
+	if(mainForm.xlsxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Excel.Sheet.12.txt";
+		
+		if(!io.open(flnm))
+		{
+			var opt=io.open(flnm,"w");
+			opt.write(t);
+		}
+	}
+	if(mainForm.xlsfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.8\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.8\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Excel.Sheet.8.txt";
+		
+		if(!io.open(flnm))
+		{
+			var opt=io.open(flnm,"w");
+			opt.write(t);
+		}
+	}
+	if(mainForm.pdffile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\MSEdgePDF\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\MSEdgePDF\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\MSEdgePDF.txt";
+		
+		if(!io.open(flnm))
+		{
+			var opt=io.open(flnm,"w");
+			opt.write(t);
+		}
+	}
+	win.msgbox("backup","Okay",NULL,NULL);
+}
+
+mainForm.OFset.oncommand = function(id,event){
+	SFbackup();
+	
+	var usp=win.getenv("USERPROFILE")+"\collect";
+	fsys.createDir(usp);
+	
+	var curdic=fsys.getCurDir();
+	
+	//win.msgbox("test","test",NULL,NULL);
+	if(mainForm.pptxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.12\shell");
+		rt.delKeyTree("open");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.12\shell\open\command");
+		var t=cur.queryValue("");
+		var comm='\"'+curdic+'powerpnt.exe\" \"%1\"';
+		cur.setSzValue("",comm);
+		cur.delValue("command");
+
+	}
+	if(mainForm.pptfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.8\shell");
+		rt.delKeyTree("open");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.8\shell\open\command");
+		var t=cur.queryValue("");
+		var comm='\"'+curdic+'powerpnt.exe\" \"%1\"';
+		cur.setSzValue("",comm);
+		cur.delValue("command");
+	}
+	if(mainForm.docxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Word.Document.12\shell");
+		rt.delKeyTree("open");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.12\shell\open\command");
+		var t=cur.queryValue("");
+		var comm='\"'+curdic+'winword.exe\" \"%1\"';
+		cur.setSzValue("",comm);
+		cur.delValue("command");
+	}
+	if(mainForm.docfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Word.Document.8\shell");
+		rt.delKeyTree("open");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.8\shell\open\command");
+		var t=cur.queryValue("");
+		var comm='\"'+curdic+'winword.exe\" \"%1\"';
+		cur.setSzValue("",comm);
+		cur.delValue("command");
+	}
+	if(mainForm.xlsxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell");
+		rt.delKeyTree("open");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\command");
+		var t=cur.queryValue("");
+		
+		var comm='\"'+curdic+'excel.exe\" \"%1\"';
+		cur.setSzValue("",comm);
+		cur.delValue("command");
+	}
+	if(mainForm.xlsfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.8\shell");
+		rt.delKeyTree("open");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.8\shell\open\command");
+		var t=cur.queryValue("");
+		var comm='\"'+curdic+'excel.exe\" \"%1\"';
+		cur.setSzValue("",comm);
+		cur.delValue("command");
+	}
+	if(mainForm.pdffile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\MSEdgePDF\shell");
+		rt.delKeyTree("open");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\MSEdgePDF\shell\open\command");
+		var t=cur.queryValue("");
+		var comm='\"'+curdic+'msedge.exe\" \"%1\"';
+		cur.setSzValue("",comm);
+		cur.delValue("command");
+	}
+	win.msgbox("Okay","Okay",NULL,NULL);
+}
+
+mainForm.OFcheck.oncommand = function(id,event){
+	var usp=win.getenv("USERPROFILE")+"\collect";
+	if(!fsys.isDir(usp)) win.msgbox("collect","mistake",NULL,NULL);
+	
+	var curdic=fsys.getCurDir();
+	
+	//win.msgbox("test","test",NULL,NULL);
+	if(mainForm.pptxfile==true)
+	{
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.12\shell\open\command");
+		var comm='\"'+curdic+'powerpnt.exe\" \"%1\"';
+		var op=cur.queryValue("");
+		var cm=cur.open("command",true); 
+		if(comm!=op||cm!=NULL) win.msgbox("pptxfile","mistake",NULL,NULL);
+	}
+	if(mainForm.pptfile==true)
+	{
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.8\shell\open\command");
+		var comm='\"'+curdic+'powerpnt.exe\" \"%1\"';
+		var op=cur.queryValue("");
+		var cm=cur.open("command",true);
+		if(comm!=op||cm!=NULL) win.msgbox("pptfile","mistake",NULL,NULL);
+	}
+	if(mainForm.docxfile==true)
+	{
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.12\shell\open\command");
+		var comm='\"'+curdic+'winword.exe\" \"%1\"';
+		var op=cur.queryValue("");
+		var cm=cur.open("command",true);
+		if(comm!=op||cm!=NULL) win.msgbox("docxfile","mistake",NULL,NULL);
+	}
+	if(mainForm.docfile==true)
+	{
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.8\shell\open\command");
+		var comm='\"'+curdic+'winword.exe\" \"%1\"';
+		var op=cur.queryValue("");
+		var cm=cur.open("command",true);
+		if(comm!=op||cm!=NULL) win.msgbox("docfile","mistake",NULL,NULL);
+	}
+	if(mainForm.xlsxfile==true)
+	{
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\command");
+		var comm='\"'+curdic+'excel.exe\" \"%1\"';
+		var op=cur.queryValue("");
+		var cm=cur.open("command",true);
+		if(comm!=op||cm!=NULL) win.msgbox("xlsxfile","mistake",NULL,NULL);
+	}
+	if(mainForm.xlsfile==true)
+	{
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.8\shell\open\command");
+		var comm='\"'+curdic+'excel.exe\" \"%1\"';
+		var op=cur.queryValue("");
+		var cm=cur.open("command",true);
+		if(comm!=op||cm!=NULL) win.msgbox("xlsfile","mistake",NULL,NULL);
+	}
+	if(mainForm.pdffile==true)
+	{
+		var cur=win.reg("HKEY_CLASSES_ROOT\MSEdgePDF\shell\open\command");
+		var comm='\"'+curdic+'msedge.exe\" \"%1\"';
+		var op=cur.queryValue("");
+		var cm=cur.open("command",true);
+		if(comm!=op||cm!=NULL) win.msgbox("pdffile","mistake",NULL,NULL);
+	}
+	win.msgbox("End","End",NULL,NULL);
+}
+
+mainForm.Help.oncommand = function(id,event){
+	win.msgbox('Written with aardiio! \r\nPlease be sure the msedge and msoffice have been installed on your computer. \r\nTo set back please edit the regedit or set in the current software. \r\nThe check may not be accurate in xlsx/xls. ',"Help",NULL,NULL);
+}
+
+mainForm.opexit.oncommand = function(id,event){
+	mainForm.close();
+}
+
+mainForm.helpCHM.oncommand = function(id,event){
+	win.msgbox("Please see help.html","help",MB_OK,NULL);
+}
+
+mainForm.SFback.oncommand = function(id,event){
+	var usp=win.getenv("APPDATA")+"\MyOffice";
+	if(!fsys.isDir(usp)) win.msgboxErr("DirNotExist","ERROR",NULL);
+	
+	//win.msgbox("test","test",NULL,NULL);
+	if(mainForm.pptxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.12\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.12\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\PowerPoint.Show.12.txt";
+		
+		if(io.exist(flnm))
+		{
+			var opt=io.open(flnm,"r");
+			t=opt.read("%s");
+			cur.setSzValue("",t);
+			opt.close();
+			io.remove(flnm);
+		}
+	}
+	if(mainForm.pptfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.8\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\PowerPoint.Show.8\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\PowerPoint.Show.8.txt";
+		
+		if(io.exist(flnm))
+		{
+			var opt=io.open(flnm,"r");
+			t=opt.read("%s");
+			cur.setSzValue("",t);
+			opt.close();
+			io.remove(flnm);
+		}
+	}
+	if(mainForm.docxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Word.Document.12\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.12\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Word.Document.12.txt";
+		
+		if(io.exist(flnm))
+		{
+			var opt=io.open(flnm,"r");
+			t=opt.read("%s");
+			cur.setSzValue("",t);
+			opt.close();
+			io.remove(flnm);
+		}
+	}
+	if(mainForm.docfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Word.Document.8\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Word.Document.8\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Word.Document.8.txt";
+		
+		if(io.exist(flnm))
+		{
+			var opt=io.open(flnm,"r");
+			t=opt.read("%s");
+			cur.setSzValue("",t);
+			opt.close();
+			io.remove(flnm);
+		}
+	}
+	if(mainForm.xlsxfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Excel.Sheet.12.txt";
+		
+		if(io.exist(flnm))
+		{
+			var opt=io.open(flnm,"r");
+			t=opt.read("%s");
+			cur.setSzValue("",t);
+			t=opt.read("%s");
+			cur.setSzValue("command",t);
+			cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\ddeexec");
+			cur.setSzValue("",'[open(\"%1\" /ou \"%u\")]');
+			cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\ddeexec\application");
+			cur.setSzValue("","Excel");
+			cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\ddeexec\topic");
+			cur.setSzValue("","system");
+			opt.close();
+			io.remove(flnm);
+		}
+	}
+	if(mainForm.xlsfile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.8\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.8\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\Excel.Sheet.8.txt";
+		
+		if(io.exist(flnm))
+		{
+			var opt=io.open(flnm,"r");
+			t=opt.read("%s");
+			cur.setSzValue("",t);
+			t=opt.read("%s");
+			cur.setSzValue("command",t);
+			cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\ddeexec");
+			cur.setSzValue("",'[open(\"%1\" /ou \"%u\")]');
+			cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\ddeexec\application");
+			cur.setSzValue("","Excel");
+			cur=win.reg("HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\open\ddeexec\topic");
+			cur.setSzValue("","system");
+			opt.close();
+			io.remove(flnm);
+		}
+	}
+	if(mainForm.pdffile==true)
+	{
+		var rt=win.reg("HKEY_CLASSES_ROOT\MSEdgePDF\shell");
+		
+		var cur=win.reg("HKEY_CLASSES_ROOT\MSEdgePDF\shell\open\command");
+		var t=cur.queryValue("");
+		var flnm=usp+"\MSEdgePDF.txt";
+		
+		if(io.exist(flnm))
+		{
+			var opt=io.open(flnm,"r");
+			t=opt.read("%s");
+			cur.setSzValue("",t);
+			opt.close();
+			io.remove(flnm);
+		}
+	}
+	win.msgbox("backed","Okay",NULL,NULL);
+}
+
+mainForm.show();
+return win.loopMessage();

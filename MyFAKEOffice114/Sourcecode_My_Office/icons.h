@@ -1,0 +1,11 @@
+#define POWERPNT 3551
+#define PPTXFILE 3552
+#define PPTFILE 3553
+#define WINWORD 3554
+#define DOCXFILE 3555
+#define DOCFILE 3556
+#define EXCEL 3557
+#define XLSXFILE 3558
+#define XLSFILE 3559
+#define MSEDGE 3560
+#define PDFILE 3561

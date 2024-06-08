@@ -1,0 +1,33 @@
+# Project: Office
+# Makefile created by Embarcadero Dev-C++ 6.3
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = PowerPnt_private.res
+OBJ      = main.o $(RES)
+LINKOBJ  = main.o $(RES)
+LIBS     = -L"D:/APPS/TDM-GCC-64/lib" -L"D:/APPS/TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows
+INCS     = -I"D:/APPS/TDM-GCC-64/include" -I"D:/APPS/TDM-GCC-64/x86_64-w64-mingw32/include"
+CXXINCS  = -I"D:/APPS/TDM-GCC-64/include" -I"D:/APPS/TDM-GCC-64/x86_64-w64-mingw32/include"
+BIN      = PowerPnt.exe
+CXXFLAGS = $(CXXINCS) -mwindows -std=c++14
+CFLAGS   = $(INCS) -mwindows -std=c++14
+DEL      = D:\My Apps\Dev-Cpp\devcpp.exe INTERNAL_DEL
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${DEL} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+PowerPnt_private.res: PowerPnt_private.rc 
+	$(WINDRES) -i PowerPnt_private.rc --input-format=rc -o PowerPnt_private.res -O coff 
+
